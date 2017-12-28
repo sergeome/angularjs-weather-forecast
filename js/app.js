@@ -31,7 +31,7 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', 'fo
     $scope.city = forecastService.city;
 
     $scope.getPredictions = function (value) {
-        var url = 'http://autocomplete.wunderground.com/aq?query=' + value;
+        var url = 'https://autocomplete.wunderground.com/aq?query=' + value;
         var trustedUrl = $sce.trustAsResourceUrl(url);
         return $http.jsonp(trustedUrl, {
             jsonpCallbackParam: 'cb'
