@@ -10,9 +10,11 @@
                         <i class="glyphicon glyphicon-remove"></i> No Results Found
                     </div>
                 </div>
+                <div class="alert alert-warning" role="alert" ng-if="showEmptyBoxAlert"> <strong>Warning!</strong> Please enter a city... </div>
             </div>
         </div>
-        <a ui-sref="forecast({location: city})" class="btn btn-primary">Get Forecast</a>
+        <a class="btn btn-primary"
+           ng-click="validateInputBox()">Get Forecast</a>
     </div>
 </div>
 

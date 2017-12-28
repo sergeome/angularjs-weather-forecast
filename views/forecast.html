@@ -1,12 +1,32 @@
 <div class="container" data-ng-controller="forecastController">
     <h2>Forecast for {{ city }}</h2>
 
+    <hr>
+
+    <span style="font-size: 20px; display: inline-block; margin-right: 20px;">Units:</span>
+
+    <div class="btn-group" role="group" aria-label="..." style="margin-top: -4px;">
+        <a class="btn btn-default"
+           ng-class="{'btn-primary' : unit === 'C'}"
+           ng-click="unit = 'C'">C</a>
+        <a class="btn btn-default"
+           ng-class="{'btn-primary' : unit === 'F'}"
+           ng-click="unit = 'F'">F</a>
+    </div>
+
+    <hr>
+
     <div class="panel panel-default" ng-repeat="day in forecast">
-        <div class="panel-heading">{{ day.date.weekday }}</div>
-        <div class="panel-body">
-            On {{ day.date.weekday }} the average is {{ (+day.high.fahrenheit + +day.low.fahrenheit) / 2 }}.
+        <div class="panel-heading">{{day.date.day}} {{day.date.monthname_short}}, {{ day.date.weekday }}</div>
+        <div class="panel-body" ng-if="unit === 'F'">
+            The average is <strong>{{ (+day.high.fahrenheit + +day.low.fahrenheit) / 2 }}</strong>.
             <br>
             The highest is {{ day.high.fahrenheit }}  and lowest is {{ day.low.fahrenheit }}
+        </div>
+        <div class="panel-body" ng-if="unit === 'C'">
+            The average is <strong>{{ (+day.high.celsius + +day.low.celsius) / 2 }}</strong>.
+            <br>
+            The highest is {{ day.high.celsius }}  and lowest is {{ day.low.celsius }}
         </div>
     </div>
 

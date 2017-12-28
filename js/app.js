@@ -19,9 +19,18 @@ forecastApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
 // CONTROLLERS
 
-forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', function ($scope, $http, $log, $sce) {
+forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', '$state', function ($scope, $http, $log, $sce, $state) {
 
     var _selected;
+    $scope.showEmptyBoxAlert = false;
+
+    $scope.validateInputBox = function () {
+        $scope.showEmptyBoxAlert = !$scope.city;
+
+        if ($scope.city) {
+            $state.go('forecast', {'location': $scope.city})
+        }
+    };
 
     $scope.getPredictions = function (value) {
         var url = 'https://autocomplete.wunderground.com/aq?query=' + value;
@@ -29,13 +38,14 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', fun
         return $http.jsonp(trustedUrl, {
             jsonpCallbackParam: 'cb'
         })
-        .then(function(rawResponse){
-            var formattedResponse = [];
-            for (var i = 0; i < rawResponse.data.RESULTS.length; i++) {
-                formattedResponse.push(rawResponse.data.RESULTS[i].name);
-            }
-            return formattedResponse;
-        });
+            .then(function(rawResponse){
+                $scope.showEmptyBoxAlert = false;
+                var formattedResponse = [];
+                for (var i = 0; i < rawResponse.data.RESULTS.length; i++) {
+                    formattedResponse.push(rawResponse.data.RESULTS[i].name);
+                }
+                return formattedResponse;
+            });
     };
 
     $scope.ngModelOptionsSelected = function(value) {
@@ -59,6 +69,7 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', fun
 forecastApp.controller('forecastController', ['$scope', '$http', '$log', '$stateParams', function ($scope, $http, $log, $stateParams) {
     $scope.forecast = [];
     $scope.noForecast = false;
+    $scope.unit = 'F';
 
     if ($stateParams.location) {
         $scope.city = $stateParams.location;
