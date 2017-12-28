@@ -1,0 +1,26 @@
+<div class="row" data-ng-controller="homeController">
+    <div class="col-md-8 col-md-offset-2 col-sm-12">
+        <h4>Forecast by city</h4>
+        <div class="row">
+            <div class="col-md-8 col-sm-10 col-xs-9">
+                <!--<input type="text" class="form-control" id="city" placeholder="New York..." ng-model="city">-->
+                <input type="text" ng-model="city" placeholder="New York..." uib-typeahead="address for address in getPredictions($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                <div ng-show="noResults">
+                    <i class="glyphicon glyphicon-remove"></i> No Results Found
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-2 col-xs-3">
+                <div class="form-group">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a class="btn btn-default">C</a>
+                        <a class="btn btn-default btn-primary">F</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a ui-sref="forecast" class="btn btn-primary">Get Forecast</a>
+    </div>
+</div>
+
+
