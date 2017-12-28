@@ -25,18 +25,40 @@ forecastApp.service('forecastService', function () {
 // CONTROLLERS
 
 forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', 'forecastService', function ($scope, $http, $log, $sce, forecastService) {
+
+    var _selected;
+
     $scope.city = forecastService.city;
 
     $scope.getPredictions = function (value) {
         var url = 'http://autocomplete.wunderground.com/aq?query=' + value;
         var trustedUrl = $sce.trustAsResourceUrl(url);
-        $http.jsonp(trustedUrl, {
+        return $http.jsonp(trustedUrl, {
             jsonpCallbackParam: 'cb'
         })
-        .then(function(response){
-            $log.info(response.data.RESULTS[0].name);
-            return response.data.RESULTS[0].name;
+        .then(function(rawResponse){
+            var formattedResponse = [];
+            for (var i = 0; i < rawResponse.data.RESULTS.length; i++) {
+                formattedResponse.push(rawResponse.data.RESULTS[i].name);
+            }
+            return formattedResponse;
         });
+    };
+
+    $scope.ngModelOptionsSelected = function(value) {
+        if (arguments.length) {
+            _selected = value;
+        } else {
+            return _selected;
+        }
+    };
+
+    $scope.modelOptions = {
+        debounce: {
+            default: 500,
+            blur: 250
+        },
+        getterSetter: true
     };
 
     $scope.$watch('city', function () {
@@ -48,12 +70,16 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', 'fo
 forecastApp.controller('forecastController', ['$scope', '$http', '$log', 'forecastService', function ($scope, $http, $log, forecastService) {
     $scope.city = forecastService.city;
     $scope.forecast = [];
+    $scope.noForecast = false;
 
     $http.get('https://api.wunderground.com/api/e9e33b0743f634ec/forecast/q/' + $scope.city + '.json')
         .then(function (response) {
-            $scope.forecast = response.data.forecast.simpleforecast.forecastday;
-        }, function (error) {
-
+            if (!response.data.forecast) {
+                $scope.noForecast = true;
+            } else {
+                $scope.noForecast = false;
+                $scope.forecast = response.data.forecast.simpleforecast.forecastday;
+            }
         });
 }]);
 

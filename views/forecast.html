@@ -9,4 +9,11 @@
             The highest is {{ day.high.fahrenheit }}  and lowest is {{ day.low.fahrenheit }}
         </div>
     </div>
+
+    <div class="panel panel-default" ng-if="noForecast">
+        <div class="panel-heading">Not Found</div>
+        <div class="panel-body">
+            Sorry, there's no forecast for selected place... :-(
+        </div>
+    </div>
 </div>
