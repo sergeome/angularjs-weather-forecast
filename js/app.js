@@ -3,6 +3,7 @@ var forecastApp = angular.module('forecastApp', ['ui.router', 'ui.bootstrap']);
 // ROUTER
 
 forecastApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
@@ -11,24 +12,16 @@ forecastApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
             templateUrl: 'views/home.html'
         })
         .state('forecast', {
-            url:'/forecast',
+            url:'/forecast/:location',
             templateUrl: 'views/forecast.html'
         });
 }]);
 
-// SERVICES
-
-forecastApp.service('forecastService', function () {
-    this.city = '';
-});
-
 // CONTROLLERS
 
-forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', 'forecastService', function ($scope, $http, $log, $sce, forecastService) {
+forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', function ($scope, $http, $log, $sce) {
 
     var _selected;
-
-    $scope.city = forecastService.city;
 
     $scope.getPredictions = function (value) {
         var url = 'https://autocomplete.wunderground.com/aq?query=' + value;
@@ -60,26 +53,26 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', 'fo
         },
         getterSetter: true
     };
-
-    $scope.$watch('city', function () {
-        forecastService.city = $scope.city;
-    })
 }]);
 
 
-forecastApp.controller('forecastController', ['$scope', '$http', '$log', 'forecastService', function ($scope, $http, $log, forecastService) {
-    $scope.city = forecastService.city;
+forecastApp.controller('forecastController', ['$scope', '$http', '$log', '$stateParams', function ($scope, $http, $log, $stateParams) {
     $scope.forecast = [];
     $scope.noForecast = false;
 
-    $http.get('https://api.wunderground.com/api/e9e33b0743f634ec/forecast/q/' + $scope.city + '.json')
-        .then(function (response) {
-            if (!response.data.forecast) {
-                $scope.noForecast = true;
-            } else {
-                $scope.noForecast = false;
-                $scope.forecast = response.data.forecast.simpleforecast.forecastday;
-            }
-        });
+    if ($stateParams.location) {
+        $scope.city = $stateParams.location;
+        $http.get('https://api.wunderground.com/api/e9e33b0743f634ec/forecast/q/' + $stateParams.location + '.json')
+            .then(function (response) {
+                if (!response.data.forecast) {
+                    $scope.noForecast = true;
+                } else {
+                    $scope.noForecast = false;
+                    $scope.forecast = response.data.forecast.simpleforecast.forecastday;
+                }
+            });
+    } else {
+        $scope.noForecast = false;
+    }
 }]);
 
