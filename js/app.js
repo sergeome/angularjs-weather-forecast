@@ -12,7 +12,7 @@ forecastApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
             templateUrl: 'views/home.html'
         })
         .state('forecast', {
-            url:'/forecast/:location',
+            url:'/forecast?city&unit',
             templateUrl: 'views/forecast.html'
         });
 }]);
@@ -28,7 +28,10 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', '$s
         $scope.showEmptyBoxAlert = !$scope.city;
 
         if ($scope.city) {
-            $state.go('forecast', {'location': $scope.city})
+            $state.go('forecast', {
+                city: $scope.city,
+                unit: 'F'
+            })
         }
     };
 
@@ -66,14 +69,19 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', '$s
 }]);
 
 
-forecastApp.controller('forecastController', ['$scope', '$http', '$log', '$stateParams', function ($scope, $http, $log, $stateParams) {
+forecastApp.controller('forecastController', ['$scope', '$http', '$log', '$state', '$stateParams', function ($scope, $http, $log, $state, $stateParams) {
     $scope.forecast = [];
     $scope.noForecast = false;
     $scope.unit = 'F';
 
-    if ($stateParams.location) {
-        $scope.city = $stateParams.location;
-        $http.get('https://api.wunderground.com/api/e9e33b0743f634ec/forecast/q/' + $stateParams.location + '.json')
+    if ($stateParams.city) {
+
+        if ($stateParams.unit) {
+            $scope.unit = $stateParams.unit;
+        }
+
+        $scope.city = $stateParams.city;
+        $http.get('https://api.wunderground.com/api/e9e33b0743f634ec/forecast/q/' + $scope.city + '.json')
             .then(function (response) {
                 if (!response.data.forecast) {
                     $scope.noForecast = true;
@@ -84,6 +92,14 @@ forecastApp.controller('forecastController', ['$scope', '$http', '$log', '$state
             });
     } else {
         $scope.noForecast = false;
+    }
+
+    $scope.switchUnits = function (value) {
+        $scope.unit = value;
+        $state.go('forecast', {
+            city: $scope.city,
+            unit: value
+        })
     }
 }]);
 
