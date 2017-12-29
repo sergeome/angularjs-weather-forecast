@@ -1,6 +1,6 @@
 // CONTROLLERS
 
-forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', '$state', function ($scope, $http, $log, $sce, $state) {
+forecastApp.controller('homeController', ['$scope', '$state', 'weatherService', function ($scope, $state, weatherService) {
 
     var _selected;
     $scope.showEmptyBoxAlert = false;
@@ -16,13 +16,9 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', '$s
         }
     };
 
-    $scope.getPredictions = function (value) {
-        var url = 'https://autocomplete.wunderground.com/aq?query=' + value;
-        var trustedUrl = $sce.trustAsResourceUrl(url);
-        return $http.jsonp(trustedUrl, {
-            jsonpCallbackParam: 'cb'
-        })
-            .then(function(rawResponse){
+    $scope.getPredictions = function (inputValue) {
+        return weatherService.getPredictions(inputValue)
+            .then(function (rawResponse) {
                 $scope.showEmptyBoxAlert = false;
                 var formattedResponse = [];
                 for (var i = 0; i < rawResponse.data.RESULTS.length; i++) {
@@ -49,7 +45,7 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', '$s
     };
 }]);
 
-forecastApp.controller('forecastController', ['$scope', '$http', '$log', '$state', '$stateParams', function ($scope, $http, $log, $state, $stateParams) {
+forecastApp.controller('forecastController', ['$scope', '$state', '$stateParams', 'weatherService', function ($scope, $state, $stateParams, weatherService) {
     $scope.forecast = [];
     $scope.noForecast = false;
     $scope.unit = 'F';
@@ -61,7 +57,8 @@ forecastApp.controller('forecastController', ['$scope', '$http', '$log', '$state
         }
 
         $scope.city = $stateParams.city;
-        $http.get('https://api.wunderground.com/api/e9e33b0743f634ec/forecast/q/' + $scope.city + '.json')
+
+        weatherService.getWeather($scope.city)
             .then(function (response) {
                 if (!response.data.forecast) {
                     $scope.noForecast = true;
