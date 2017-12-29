@@ -3,19 +3,19 @@
         <h4>Forecast by city</h4>
         <div class="row">
             <div class="col-md-8 col-sm-10 col-xs-9">
-                <div class="form-group">
-                    <input type="text" ng-model="city" placeholder="New York..." uib-typeahead="city for city in getPredictions($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noResults">
-                        <i class="glyphicon glyphicon-remove"></i> No Results Found
+                <form ng-submit="onSubmit()">
+                    <div class="form-group">
+                        <input type="text" ng-model="city" placeholder="New York..." uib-typeahead="city for city in getPredictions($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                        <div ng-show="noResults">
+                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                        </div>
                     </div>
-                </div>
-                <div class="alert alert-warning" role="alert" ng-if="showEmptyBoxAlert"> <strong>Warning!</strong> Please enter a city... </div>
+                    <div class="alert alert-warning" role="alert" ng-if="showEmptyBoxAlert"> <strong>Warning!</strong> Please enter a city... </div>
+                    <button type="submit" class="btn btn-primary">Get Forecast</button>
+                </form>
             </div>
         </div>
-        <a class="btn btn-primary"
-           ng-click="validateInputBox()"
-           href="">Get Forecast</a>
     </div>
 </div>
 

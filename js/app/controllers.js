@@ -5,7 +5,7 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', '$s
     var _selected;
     $scope.showEmptyBoxAlert = false;
 
-    $scope.validateInputBox = function () {
+    $scope.onSubmit = function () {
         $scope.showEmptyBoxAlert = !$scope.city;
 
         if ($scope.city) {
