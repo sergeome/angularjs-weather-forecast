@@ -1,0 +1,14 @@
+<div class="panel panel-default">
+    <div class="panel-heading">{{day}} {{monthNameShort}}, {{ weekday }}</div>
+    <div class="panel-body" ng-if="unit === 'F'">
+        The average is <strong>{{ (+highFahrenheit + +lowFahrenheit) / 2 }}</strong>.
+        <br>
+        The highest is {{ highFahrenheit }} and lowest is {{ lowFahrenheit }}
+    </div>
+    <div class="panel-body" ng-if="unit === 'C'">
+        The average is <strong>{{ (+highCelsius + +lowCelsius) / 2 }}</strong>.
+        <br>
+        The highest is {{ highCelsius }} and lowest is {{ lowCelsius }}
+    </div>
+</div>
+

@@ -16,19 +16,17 @@
 
     <hr>
 
-    <div class="panel panel-default" ng-repeat="day in forecast">
-        <div class="panel-heading">{{day.date.day}} {{day.date.monthname_short}}, {{ day.date.weekday }}</div>
-        <div class="panel-body" ng-if="unit === 'F'">
-            The average is <strong>{{ (+day.high.fahrenheit + +day.low.fahrenheit) / 2 }}</strong>.
-            <br>
-            The highest is {{ day.high.fahrenheit }}  and lowest is {{ day.low.fahrenheit }}
-        </div>
-        <div class="panel-body" ng-if="unit === 'C'">
-            The average is <strong>{{ (+day.high.celsius + +day.low.celsius) / 2 }}</strong>.
-            <br>
-            The highest is {{ day.high.celsius }}  and lowest is {{ day.low.celsius }}
-        </div>
-    </div>
+    <forecast-item
+            day="{{day.date.day}}"
+            month-name-short="{{day.date.monthname_short}}"
+            weekday="{{day.date.weekday}}"
+            high-fahrenheit="{{day.high.fahrenheit}}"
+            low-fahrenheit="{{day.low.fahrenheit}}"
+            high-celsius="{{day.high.celsius}}"
+            low-celsius="{{day.low.celsius}}"
+            unit="{{unit}}"
+            ng-repeat="day in forecast"
+    ></forecast-item>
 
     <div class="panel panel-default" ng-if="noForecast">
         <div class="panel-heading">Not Found</div>

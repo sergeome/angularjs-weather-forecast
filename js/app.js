@@ -17,6 +17,26 @@ forecastApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
         });
 }]);
 
+// DIRECTIVES
+
+forecastApp.directive('forecastItem', function () {
+    return {
+        templateUrl: 'directives/forecast-item.html',
+        replace: true,
+        scope: {
+            day: '@',
+            monthNameShort: '@',
+            weekday: '@',
+            highFahrenheit: '@',
+            lowFahrenheit: '@',
+            highCelsius: '@',
+            lowCelsius: '@',
+            unit: '@'
+        }
+    }
+});
+
+
 // CONTROLLERS
 
 forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', '$state', function ($scope, $http, $log, $sce, $state) {
@@ -67,7 +87,6 @@ forecastApp.controller('homeController', ['$scope', '$http', '$log', '$sce', '$s
         getterSetter: true
     };
 }]);
-
 
 forecastApp.controller('forecastController', ['$scope', '$http', '$log', '$state', '$stateParams', function ($scope, $http, $log, $state, $stateParams) {
     $scope.forecast = [];
