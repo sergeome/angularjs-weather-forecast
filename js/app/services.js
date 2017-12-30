@@ -1,5 +1,7 @@
 forecastApp.service('weatherService', ['$http', '$sce', function ($http, $sce) {
 
+    this.wasAutoDetected = false;
+
     this.getPredictions = function (inputValue) {
         var url = 'https://autocomplete.wunderground.com/aq?query=' + inputValue;
         var trustedUrl = $sce.trustAsResourceUrl(url);

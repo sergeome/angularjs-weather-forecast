@@ -6,14 +6,17 @@ forecastApp.controller('homeController', ['$scope', '$state', 'weatherService', 
     $scope.showEmptyBoxAlert = false;
 
     // Location Autodetection Block
-    var autoDetectedLocation = weatherService.getLocationBasedOnIpAddress();
+    if(!weatherService.wasAutoDetected) {
+        var autoDetectedLocation = weatherService.getLocationBasedOnIpAddress();
 
-    if (autoDetectedLocation) {
-        autoDetectedLocation.then(function (data) {
-            if (data) {
-                $scope.city = data;
-            }
-        });
+        if (autoDetectedLocation) {
+            autoDetectedLocation.then(function (data) {
+                if (data) {
+                    $scope.city = data;
+                    weatherService.wasAutoDetected = true;
+                }
+            });
+        }
     }
     // End Location Autodetection Block
 
