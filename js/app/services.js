@@ -10,7 +10,14 @@ forecastApp.service('weatherService', ['$http', '$sce', function ($http, $sce) {
 
     this.getWeather = function (city) {
         return $http.get('https://api.wunderground.com/api/e9e33b0743f634ec/forecast/q/' + city + '.json');
-    }
+    };
+
+    this.getLocationBasedOnIpAddress = function () {
+        return $http.get('http://api.wunderground.com/api/e9e33b0743f634ec/conditions/q/autoip.json')
+                .then(function (rawData) {
+                    return rawData.data.current_observation.display_location.full;
+                });
+    };
 
 }]);
 
