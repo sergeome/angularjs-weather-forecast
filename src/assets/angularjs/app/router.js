@@ -1,8 +1,8 @@
 // ROUTER
 
-forecastApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-
-    $urlRouterProvider.otherwise('/');
+forecastApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
+    //$urlRouterProvider.otherwise('/');
 
     $stateProvider
         .state('home', {

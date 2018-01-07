@@ -1,0 +1,27 @@
+<div class="container" data-ng-controller="forecastController">
+    <h2>Forecast for {{ city }}</h2>
+
+    <hr>
+
+    <span style="font-size: 20px; display: inline-block; margin-right: 20px;">Units:</span>
+
+    <div class="btn-group" role="group" aria-label="..." style="margin-top: -4px;">
+        <a class="btn btn-default"
+           ngClass="{'btn-primary' : unit === 'C'}"
+           (click)="switchUnits('C')">C</a>
+        <a class="btn btn-default"
+           ngClass="{'btn-primary' : unit === 'F'}"
+           (click)="switchUnits('F')">F</a>
+    </div>
+
+    <hr>
+
+    <app-forecast-item></app-forecast-item>
+
+    <div class="panel panel-default" *ngIf="noForecast">
+        <div class="panel-heading">Not Found</div>
+        <div class="panel-body">
+            Sorry, there's no forecast for selected place... :-(
+        </div>
+    </div>
+</div>
