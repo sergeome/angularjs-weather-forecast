@@ -10,7 +10,7 @@ export const ng1ForecastApp = angular.module('ng1ForecastApp', ['ui.router', 'ui
 ng1ForecastApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
   function ($stateProvider, $urlRouterProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
-  // $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/');
 
   $stateProvider
     .state('home', {
@@ -19,8 +19,13 @@ ng1ForecastApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvide
     })
     .state('forecast', {
       url: '/forecast?city&unit',
-      templateUrl: './assets/angularjs/views/forecast.html'
+      template: '<app-forecast></app-forecast>'
     });
+    // Angular 1 Route
+    // .state('forecast', {
+    //   url: '/forecast?city&unit',
+    //   templateUrl: './assets/angularjs/views/forecast.html'
+    // });
 }]);
 
 ng1ForecastApp.service('weatherService', ['$http', '$sce', function ($http, $sce) {

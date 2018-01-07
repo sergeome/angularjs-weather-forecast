@@ -8,6 +8,9 @@ import { ForecastComponent } from './views/forecast/forecast.component';
 import { ForecastItemComponent } from './components/forecast-item/forecast-item.component';
 import { HomeComponent } from './views/home/home.component';
 
+import { ng1ForecastApp } from '../ng1app';
+import { UpgradeModule } from '@angular/upgrade/static';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,11 +20,18 @@ import { HomeComponent } from './views/home/home.component';
   ],
   imports: [
     BrowserModule,
-    BaseRouterModule
+    BaseRouterModule,
+    UpgradeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor() {}
+  constructor(private upgrade: UpgradeModule) {}
+
+  public ng1ForecastApp = ng1ForecastApp;
+
+  ngDoBootstrap() {
+    this.upgrade.bootstrap(document.body, ['ng1ForecastApp']);
+  }
 }
