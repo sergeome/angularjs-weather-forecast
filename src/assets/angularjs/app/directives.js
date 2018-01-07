@@ -2,7 +2,7 @@
 
 forecastApp.directive('forecastItem', function () {
     return {
-        templateUrl: 'directives/forecast-item.html',
+        templateUrl: './assets/angularjs/directives/forecast-item.html',
         replace: true,
         scope: {
             day: '@',
