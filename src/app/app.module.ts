@@ -21,6 +21,6 @@ export class AppModule {
   constructor(private upgrade: UpgradeModule) {}
 
   ngDoBootstrap() {
-    this.upgrade.bootstrap(document, ['forecastApp']);
+    this.upgrade.bootstrap(document: Element, ['forecastApp']);
   }
 }
