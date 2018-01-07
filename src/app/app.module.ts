@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
 import { AppComponent } from './app.component';
+
+// Modules
 import { UpgradeModule } from '@angular/upgrade/static';
+import { BaseRouterModule } from './modules/base-router.module';
 
 
 @NgModule({
@@ -12,15 +13,10 @@ import { UpgradeModule } from '@angular/upgrade/static';
   ],
   imports: [
     BrowserModule,
-    UpgradeModule
+    UpgradeModule,
+    BaseRouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor(private upgrade: UpgradeModule) {}
-
-  ngDoBootstrap() {
-    this.upgrade.bootstrap(document: Element, ['forecastApp']);
-  }
-}
+export class AppModule {}
