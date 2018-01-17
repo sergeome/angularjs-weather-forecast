@@ -16,7 +16,8 @@ export class IframeComponent implements OnInit {
               private sanitizer: DomSanitizer) {
     this.route.url.subscribe(urlSegments => {
       this.counter += 1;
-      const requestedUrl = '/legacy/?counter=' + this.counter + '#!/' + urlSegments.join('');
+      // const requestedUrl = '/legacy' + '#!/' + urlSegments.join('');
+      const requestedUrl = 'legacy';
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl(requestedUrl);
     });
   }
