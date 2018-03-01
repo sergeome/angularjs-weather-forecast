@@ -10,18 +10,14 @@ import {ActivatedRoute} from '@angular/router';
 export class IframeComponent implements OnInit {
 
   public url: SafeResourceUrl;
-  private counter = 0;
 
   constructor(private route: ActivatedRoute,
-              private sanitizer: DomSanitizer) {
-    this.route.url.subscribe(urlSegments => {
-      this.counter += 1;
-      // const requestedUrl = '/legacy' + '#!/' + urlSegments.join('');
-      const requestedUrl = 'legacy';
+              private sanitizer: DomSanitizer) {}
+
+  ngOnInit() {
+    this.route.url.subscribe(_ => {
+      const requestedUrl = 'http://localhost:8080/';
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl(requestedUrl);
     });
   }
-
-  ngOnInit() {}
-
 }
